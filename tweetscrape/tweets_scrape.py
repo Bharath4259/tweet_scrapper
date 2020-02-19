@@ -342,7 +342,7 @@ class TweetScrapper:
             last_tweet_id = ''
             last_tweet_timestamp = ''
 
-            tweet_csv_writer = csv.DictWriter(tweet_fp, fieldnames=TweetInfo.tweet_fields)
+            tweet_csv_writer = csv.DictWriter(tweet_fp, fieldnames=TweetInfo.tweet_fields, lineterminator='\n')
 
             if self.__twitter_tweet_persist_file_format__.lower() != 'csv' and tweet_fp.tell() != 0:
                 tweet_fp.seek(tweet_fp.tell() - 1, os.SEEK_SET)
@@ -353,14 +353,19 @@ class TweetScrapper:
                 last_tweet_id = tweet.get_tweet_id()
                 last_tweet_timestamp = tweet.get_tweet_time_ms()
                 tweet_count += 1
+
+                time_stamp = datetime.fromtimestamp(int(tweet.get_tweet_time_ms()) // 1000)
+                time_stamp = datetime.strftime(time_stamp, '%Y-%m-%d %H:%M:%S')
+                tweet_json = tweet.get_json()
+                tweet_json['time'] = time_stamp
                 if self.__twitter_tweet_persist_file_format__.lower() == 'csv':
                     if tweet_fp.tell() == 0:
                         tweet_csv_writer.writeheader()
-                    tweet_csv_writer.writerow(tweet.get_json())
+                    tweet_csv_writer.writerow(tweet_json)
                 else:
                     if tweet_fp.tell() == 0:
                         tweet_fp.write("[")
-                    json.dump(tweet.get_json(), tweet_fp)
+                    json.dump(tweet_json, tweet_fp)
                     tweet_fp.write(",")
             if self.__twitter_tweet_persist_file_format__.lower() != 'csv':
                 tweet_fp.seek(tweet_fp.tell() - 1, os.SEEK_SET)
