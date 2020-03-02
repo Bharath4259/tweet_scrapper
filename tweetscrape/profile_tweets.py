@@ -25,7 +25,7 @@ class TweetScrapperProfile(TweetScrapper):
     __twitter_profile_params__ = None
 
     def __init__(self, username, num_tweets=40,
-                 tweet_dump_path="", tweet_dump_format="",
+                 tweet_dump_path="", tweet_dump_format="", twitter_data_function=None,
                  request_proxies=None):
         self.username = username
 
@@ -51,7 +51,7 @@ class TweetScrapperProfile(TweetScrapper):
                          self.__twitter_profile_header__,
                          self.__twitter_profile_params__,
                          request_proxies,
-                         self.pages, tweet_dump_path, tweet_dump_format)
+                         self.pages, tweet_dump_path, tweet_dump_format, twitter_data_function)
 
     def get_profile_tweets(self, save_output=False):
         output_file_name = '/' + self.username + '_profile'

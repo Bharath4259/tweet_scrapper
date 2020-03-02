@@ -44,6 +44,7 @@ class TweetScrapperSearch(TweetScrapper):
                  search_till_date="", search_since_date="",
                  num_tweets=40, language='',
                  tweet_dump_path="", tweet_dump_format="",
+                 twitter_data_function=None,
                  request_proxies=None):
 
         self.search_type = "typd"
@@ -86,7 +87,7 @@ class TweetScrapperSearch(TweetScrapper):
         }
 
         super().__init__(None, None, None, request_proxies,
-                         self.pages, tweet_dump_path, tweet_dump_format)
+                         self.pages, tweet_dump_path, tweet_dump_format, twitter_data_function)
 
     def get_search_tweets(self, latest_tweets=True, save_output=False):
         if self.time_query is not None and self.time_query != "":

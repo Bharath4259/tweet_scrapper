@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 class TweetScrapperUser(TweetScrapper):
-    username = "5hirish"
+    username = "Twitter"
 
     def __init__(self, username, request_proxies=None):
         self.username = username

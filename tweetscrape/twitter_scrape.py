@@ -14,7 +14,7 @@ __copyright__ = "Copyright (C) 2018  Shirish Kadam"
 __license__ = "GNU General Public License v3 (GPLv3)"
 
 _logger = logging.getLogger(__name__)
-    
+
 
 def parse_args(args):
     """Parse command line parameters
