@@ -8,22 +8,22 @@ $ python -m tweetscrape.twitter_scrape -h
 ### Fetch User Profile Tweets
 
 ```python
-from tweetscrape.profile_tweets import TweetScrapperProfile 
+from tweetscrape.profile_tweets import TweetScrapperProfile
 
 tweet_scrapper = TweetScrapperProfile("5hirish", 40, 'twitter.csv', 'csv')
 tweet_count, tweet_id, tweet_time, dump_path = tweet_scrapper.get_profile_tweets()
 print("Extracted {0} tweets till {1} at {2}".format(tweet_count, tweet_time, dump_path))
 ```
 
-The `TweetScrapperProfile` class scrapes the tweets using Twitter frontend APIs with XPATH queries. 
+The `TweetScrapperProfile` class scrapes the tweets using Twitter frontend APIs with XPATH queries.
 It requires four parameters, the Twitter **username**, the **number of tweets** to scrape
- (default tweets scraped are 40), the **file path** to dump 
-the data and the data **export format**, which can be JSON or CSV. 
+ (default tweets scraped are 40), the **file path** to dump
+the data and the data **export format**, which can be JSON or CSV.
 You can even add proxy to the scraper via `request_proxies` parameter.
 __NOTE__: To extract as much tweets as possible set the number of tweets to -1.
 
 The `get_profile_tweets()` method returns the count of tweets, last extracted tweet id, last extracted tweet time and
- the file export path of extracted tweets. 
+ the file export path of extracted tweets.
 
 ```csv
 id,type,time,author,author_id,re_tweeter,associated_tweet,text,links,hashtags,mentions,reply_count,favorite_count,retweet_count
@@ -51,16 +51,16 @@ tweet_count, tweet_id, tweet_time, dump_path = tweet_scrapper.get_search_tweets(
 print("Extracted {0} tweets till {1} at {2}".format(tweet_count, tweet_time, dump_path))
 ```
 
-The `TweetScrapperSearch` class scrapes the tweets based on the hashtags or a search term or any of the 
+The `TweetScrapperSearch` class scrapes the tweets based on the hashtags or a search term or any of the
 advanced filters of Twitter search [Twitter Search Advance](https://twitter.com/search-advanced).
  It requires multiple parameters, based on the filters you might want to search with. Based on these filters a query is
- constructed and searched on Twitter. It also requires the **number of tweets** to scrape, the **file path** to dump 
+ constructed and searched on Twitter. It also requires the **number of tweets** to scrape, the **file path** to dump
 the data and the data **export format**, which can be JSON or CSV.
 You can even add proxy to the scraper via `request_proxies` parameter.
 
 The `get_search_tweets()` method returns the count of tweets, last extracted tweet id, last extracted tweet time and
- the file export path of extracted tweets. 
- 
+ the file export path of extracted tweets.
+
 Following are the supported search filters (parameters) for `TweetScrapperSearch` class.
 
 ```text
@@ -90,14 +90,14 @@ print("Extracted {0} tweets till {1} at {2}".format(tweet_count, tweet_time, dum
 
 The `TweetScrapperConversation` class scrapes the tweets from a tweet tread or conversation.
  It requires two parameters, the Twitter username of the user who tweeted the original tweet and
-  the id of the tweet. It also requires the **number of tweets** to scrape, the **file path** to dump 
+  the id of the tweet. It also requires the **number of tweets** to scrape, the **file path** to dump
 the data and the data **export format**, which can be JSON or CSV.
 You can even add proxy to the scraper via `request_proxies` parameter.
 
 The `get_thread_tweets()` method returns the count of tweets, last extracted tweet id, last extracted tweet time and
- the file export path of extracted tweets. 
- 
- 
+ the file export path of extracted tweets.
+
+
 ### Fetch User stats
 
 ```python
@@ -111,21 +111,44 @@ The `TweetScrapperUser` class scrapes the stats of the user from Twitter.
  It requires one parameter, the Twitter username of the user.
 You can even add proxy to the scraper via `request_proxies` parameter.
 
-The `get_profile_info()` method returns the JSON with user information. 
+The `get_profile_info()` method returns the JSON with user information.
  ```json
 {
-  "username": "@5hirish", 
-  "name": "Shirish Kadam", 
+  "username": "@5hirish",
+  "name": "Shirish Kadam",
   "bio": "Building @alleviate_hq #SaaS #NLProc  #MachineLearning #DataScience\nAutomating Automation\nhttp://5hirish.com",
-  "location": "Bengaluru, India", 
-  "location_id": "1b8680cd52a711cb", 
-  "url": "http://www.shirishkadam.com", 
-  "tweets": "2619", 
-  "following": "694", 
-  "followers": "243", 
+  "location": "Bengaluru, India",
+  "location_id": "1b8680cd52a711cb",
+  "url": "http://www.shirishkadam.com",
+  "tweets": "2619",
+  "following": "694",
+  "followers": "243",
   "favorites": "8112"
 }
 ```
+
+### Using Data Function
+
+```python
+from tweetscrape.search_tweets import TweetScrapperSearch
+
+def handle_data(tweets_list):
+    '''
+        This function must accepts list as params
+    '''
+    # Save tweets to file
+    print("tweets list >> ", (tweets_list))
+
+tweet_scrapper = TweetScrapperSearch(search_hashtags="#twitter",
+                                        num_tweets=40,
+                                        search_since_date="2020-01-01",
+                                        search_till_date="2020-01-31",
+                                        twitter_data_function = handle_data,
+                                        request_proxies=None)
+tweet_count, last_tweet_id, last_tweet_time, dump_path = tweet_scrapper.get_search_tweets()
+
+```
+
 
 ### Extracted Tweets data model
 
