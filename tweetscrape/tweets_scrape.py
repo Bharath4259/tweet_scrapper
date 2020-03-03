@@ -350,7 +350,8 @@ class TweetScrapper:
                 tweets_list.append(tweet_json)
 
         if not self.__twitter_tweet_persist_file_function__ is None:
-            self.__twitter_tweet_persist_file_function__(tweets_list)
+            file_path = self.__twitter_tweet_persist_file_path__
+            self.__twitter_tweet_persist_file_function__(tweet_count=tweet_count, file_path=file_path, tweets_list=tweets_list)
         else:
             if self.__twitter_tweet_persist_file_path__ is None or self.__twitter_tweet_persist_file_path__ == "":
                 self.__twitter_tweet_persist_file_format__ = 'csv'

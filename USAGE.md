@@ -132,11 +132,12 @@ The `get_profile_info()` method returns the JSON with user information.
 ```python
 from tweetscrape.search_tweets import TweetScrapperSearch
 
-def handle_data(tweets_list):
+def handle_data(**args):
     '''
         This function must accepts list as params
     '''
     # Save tweets to file
+    tweets_list = args['tweets_list']
     print("tweets list >> ", (tweets_list))
 
 tweet_scrapper = TweetScrapperSearch(search_hashtags="#twitter",
